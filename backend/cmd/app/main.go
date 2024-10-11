@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/pkg/service"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -9,8 +10,8 @@ import (
 func main() {
 	r := mux.NewRouter()
 
-	// Пример маршрутов
-	r.HandleFunc("/api/avatar", CreateAvatar).Methods("POST")
+	// TODO: FIX HANDLERS!!!
+	r.HandleFunc("/api/avatar", service.CreateAvatar()).Methods("POST")
 	r.HandleFunc("/api/achievements", GetAchievements).Methods("GET")
 
 	log.Println("Server is running on port 8080")
