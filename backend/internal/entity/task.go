@@ -2,7 +2,8 @@ package entity
 
 type Task struct {
 	ID          uint   `gorm:"primaryKey"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Points      int    `json:"points"`
+	UserID      uint   `gorm:"not null"`
+	Title       string `gorm:"not null"`
+	Description string `gorm:"not null"`
+	IsCompleted bool   `gorm:"not null"`
 }

@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS achievements;
+DROP TABLE IF EXISTS avatars;
+DROP TABLE IF EXISTS tasks;

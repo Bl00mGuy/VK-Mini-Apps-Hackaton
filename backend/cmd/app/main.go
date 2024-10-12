@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/pkg/service"
+	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/service"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
