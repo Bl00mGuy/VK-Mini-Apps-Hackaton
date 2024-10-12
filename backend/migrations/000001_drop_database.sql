@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users_achievements;
+DROP TABLE IF EXISTS users_tasks;
 DROP TABLE IF EXISTS achievements;
 DROP TABLE IF EXISTS avatars;
 DROP TABLE IF EXISTS tasks;
