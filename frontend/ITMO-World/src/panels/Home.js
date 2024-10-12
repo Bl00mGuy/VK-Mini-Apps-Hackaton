@@ -1,15 +1,15 @@
 import React from 'react';
-import {Avatar, Button, Cell, Group, Panel, PanelHeader} from '@vkontakte/vkui';
+import { Avatar, Button, Cell, Group, Panel, PanelHeader } from '@vkontakte/vkui';
 import PropTypes from 'prop-types';
 
-const HomePanel = ({id, fetchedUser, goTo}) => {
+const HomePanel = ({ id, fetchedUser, goTo }) => {
     return (
         <Panel id={id}>
             <PanelHeader>Главная</PanelHeader>
             {fetchedUser && (
                 <Group>
                     <Cell
-                        before={fetchedUser.photo_200 && <Avatar src={fetchedUser.photo_200}/>}
+                        before={fetchedUser.photo_200 && <Avatar src={fetchedUser.photo_200} />}
                         description={fetchedUser.city?.title}
                     >
                         {`${fetchedUser.first_name} ${fetchedUser.last_name}`}
@@ -29,6 +29,9 @@ const HomePanel = ({id, fetchedUser, goTo}) => {
                 <Button size="l" stretched onClick={() => goTo('leaderboard')}>
                     Лидерборд
                 </Button>
+                <Button size="l" stretched onClick={() => goTo('statistics')}>
+                    Статистика
+                </Button>
             </Group>
         </Panel>
     );
@@ -40,4 +43,4 @@ HomePanel.propTypes = {
     goTo: PropTypes.func.isRequired,
 };
 
-export {HomePanel};
+export { HomePanel };

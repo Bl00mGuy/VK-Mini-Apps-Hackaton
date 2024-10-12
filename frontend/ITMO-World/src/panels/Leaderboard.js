@@ -1,30 +1,37 @@
-import React, {useEffect, useState} from 'react';
-import {Avatar, Cell, Group, Panel, PanelHeader} from '@vkontakte/vkui';
+import React, { useState, useEffect } from 'react';
+import { Panel, PanelHeader, Group, Cell, ScreenSpinner } from '@vkontakte/vkui';
+import { fetchLeaderboard } from '../api';
 import PropTypes from 'prop-types';
-import {fetchLeaderboard} from '../api';
 
-const LeaderboardPanel = ({id}) => {
+const LeaderboardPanel = ({ id, goTo }) => {
     const [leaderboard, setLeaderboard] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const getLeaderboard = async () => {
-            const data = await fetchLeaderboard();
-            setLeaderboard(data);
+            try {
+                const fetchedLeaderboard = await fetchLeaderboard();
+                setLeaderboard(fetchedLeaderboard);
+            } catch (err) {
+                setError('Ошибка при загрузке лидерборда');
+            } finally {
+                setLoading(false);
+            }
         };
         getLeaderboard();
     }, []);
 
+    if (loading) return <ScreenSpinner size="large" />;
+    if (error) return <div>{error}</div>;
+
     return (
         <Panel id={id}>
-            <PanelHeader>Рейтинг</PanelHeader>
+            <PanelHeader>Лидерборд</PanelHeader>
             <Group>
-                {leaderboard.map((user, index) => (
-                    <Cell
-                        key={user.id}
-                        before={<Avatar src={user.avatar}/>}
-                        description={`Очки: ${user.points}`}
-                    >
-                        {index + 1}. {user.name}
+                {leaderboard.map((player) => (
+                    <Cell key={player.id} onClick={() => goTo('home')}>
+                        {player.name} - {player.score}
                     </Cell>
                 ))}
             </Group>
@@ -34,6 +41,7 @@ const LeaderboardPanel = ({id}) => {
 
 LeaderboardPanel.propTypes = {
     id: PropTypes.string.isRequired,
+    goTo: PropTypes.func.isRequired,
 };
 
-export {LeaderboardPanel};
+export { LeaderboardPanel };

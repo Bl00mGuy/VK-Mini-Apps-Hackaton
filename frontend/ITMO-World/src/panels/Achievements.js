@@ -1,25 +1,36 @@
-import React, {useEffect, useState} from 'react';
-import {Cell, Group, Panel, PanelHeader} from '@vkontakte/vkui';
+import React, { useState, useEffect } from 'react';
+import { Panel, PanelHeader, Group, Cell, ScreenSpinner } from '@vkontakte/vkui';
+import { fetchAchievements } from '../api';
 import PropTypes from 'prop-types';
-import {fetchAchievements} from '../api';
 
-const AchievementsPanel = ({id}) => {
+const AchievementsPanel = ({ id, goTo }) => {
     const [achievements, setAchievements] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const getAchievements = async () => {
-            const fetchedAchievements = await fetchAchievements();
-            setAchievements(fetchedAchievements);
+            try {
+                const fetchedAchievements = await fetchAchievements();
+                setAchievements(fetchedAchievements);
+            } catch (err) {
+                setError('Ошибка при загрузке достижений');
+            } finally {
+                setLoading(false);
+            }
         };
         getAchievements();
     }, []);
+
+    if (loading) return <ScreenSpinner size="large" />;
+    if (error) return <div>{error}</div>;
 
     return (
         <Panel id={id}>
             <PanelHeader>Достижения</PanelHeader>
             <Group>
                 {achievements.map((achievement) => (
-                    <Cell key={achievement.id} description={achievement.description}>
+                    <Cell key={achievement.id} onClick={() => goTo('home')}>
                         {achievement.title}
                     </Cell>
                 ))}
@@ -30,6 +41,7 @@ const AchievementsPanel = ({id}) => {
 
 AchievementsPanel.propTypes = {
     id: PropTypes.string.isRequired,
+    goTo: PropTypes.func.isRequired,
 };
 
-export {AchievementsPanel};
+export { AchievementsPanel };
