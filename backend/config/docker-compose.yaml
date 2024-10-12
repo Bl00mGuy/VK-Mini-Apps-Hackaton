@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: vk-hackaton-db
+    environment:
+      POSTGRES_INIT DB_ARGS: --auth-host=scram-sha-256
+      GDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: db
+      POSTGRES_PASSWORD: db
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
