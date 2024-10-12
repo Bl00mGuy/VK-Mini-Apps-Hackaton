@@ -19,3 +19,24 @@ CREATE TABLE tasks (
     description TEXT,
     is_completed BOOLEAN
 );
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    dep TEXT NOT NULL,
+    lvl TEXT NOT NULL,
+    course INT NOT NULL,
+    sport TEXT,
+    club TEXT,
+    mer TEXT,
+    FOREIGN KEY (avatar_id) REFERENCES avatars(id)
+);
+
+CREATE TABLE users_achievements (
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (achievement_id) REFERENCES achievements(id)
+);
+
+CREATE TABLE users_tasks (
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (task_id) REFERENCES tasks(id)
+);
