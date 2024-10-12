@@ -7,7 +7,7 @@ CREATE TABLE achievements (
 
 CREATE TABLE avatars (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255),
     image_url VARCHAR(255) NOT NULL,
     interests TEXT[]
 );
