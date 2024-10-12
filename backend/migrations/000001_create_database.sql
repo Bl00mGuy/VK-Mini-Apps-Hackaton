@@ -14,6 +14,7 @@ CREATE TABLE avatars (
 
 CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT,
     is_completed BOOLEAN
