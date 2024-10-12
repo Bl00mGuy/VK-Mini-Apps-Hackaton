@@ -7,7 +7,6 @@ import (
 )
 
 func CreateAvatar(w http.ResponseWriter, r *http.Request) {
-	// Пример создания аватара на основе данных
 	avatar := entity.Avatar{
 		Name:      "Иван Иванов",
 		ImageURL:  "https://vk.com/images/avatar.jpg",
