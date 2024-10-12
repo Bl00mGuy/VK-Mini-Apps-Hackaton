@@ -1,8 +1,9 @@
-package repository
+package impl
 
 import (
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/dto"
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/entity"
+	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/repository"
 	"gorm.io/gorm"
 )
 
@@ -10,7 +11,7 @@ type taskRepository struct {
 	db *gorm.DB
 }
 
-func NewTaskRepository(db *gorm.DB) TaskRepository {
+func NewTaskRepository(db *gorm.DB) repository.TaskRepository {
 	return &taskRepository{db}
 }
 
