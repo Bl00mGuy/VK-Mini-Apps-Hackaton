@@ -3,6 +3,7 @@ package impl
 import (
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/dto"
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/entity"
+	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/mapper"
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/repository"
 	"gorm.io/gorm"
 )
@@ -24,20 +25,24 @@ func (r *achievementRepository) Create(createAchievementDTO *dto.CreateAchieveme
 	return r.db.Create(achievement).Error
 }
 
-func (r *achievementRepository) FindByID(achievementDTO *dto.FindAchievementDTO) (*entity.Achievement, error) {
+func (r *achievementRepository) FindByID(achievementID uint) (*dto.AchievementDTO, error) {
 	var achievement entity.Achievement
-	if err := r.db.First(&achievement, achievementDTO.AchievementID).Error; err != nil {
+	if err := r.db.First(&achievement, achievementID).Error; err != nil {
 		return nil, err
 	}
-	return &achievement, nil
+
+	achievementDTO := mapper.ConvertToAchievementDTO(achievement)
+	return &achievementDTO, nil
 }
 
-func (r *achievementRepository) FindAll(findAllAchievementsDTO *dto.FindAllAchievementsDTO) ([]entity.Achievement, error) {
+func (r *achievementRepository) FindAll(userID uint) ([]dto.AchievementDTO, error) {
 	var achievement []entity.Achievement
-	if err := r.db.Where("user_id = ?", findAllAchievementsDTO.UserID).Find(&achievement).Error; err != nil {
+	if err := r.db.Where("user_id = ?", userID).Find(&achievement).Error; err != nil {
 		return nil, err
 	}
-	return achievement, nil
+
+	achievementDTOs := mapper.ConvertToAchievementDTOs(achievement)
+	return achievementDTOs, nil
 }
 
 func (r *achievementRepository) Update(updateAchievementDTO *dto.UpdateAchievementDTO) error {
@@ -49,7 +54,6 @@ func (r *achievementRepository) Update(updateAchievementDTO *dto.UpdateAchieveme
 	achievement.Title = updateAchievementDTO.Title
 	achievement.Description = updateAchievementDTO.Description
 	achievement.UserID = updateAchievementDTO.UserID
-	achievement.ID = updateAchievementDTO.AchievementID
 
 	return r.db.Save(achievement).Error
 }
