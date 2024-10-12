@@ -5,8 +5,10 @@ services:
     image: postgres:latest
     container_name: vk-hackaton-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_INIT DB_ARGS: --auth-host=scram-sha-256
+      GDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: db
+      POSTGRES_PASSWORD: db
       POSTGRES_DB: postgres
     ports:
-      - "6432:6432"
+      - "5432:5432"
