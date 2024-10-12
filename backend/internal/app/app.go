@@ -53,7 +53,7 @@ func Start() {
 	{
 		taskRoutes.POST("", taskHandler.CreateTask)
 		taskRoutes.GET("/:task_id", taskHandler.FindTaskByID)
-		taskRoutes.GET("", taskHandler.FindAllTasks)
+		taskRoutes.GET("/all/:user_id", taskHandler.FindAllTasks)
 		taskRoutes.PUT("", taskHandler.UpdateTask)
 		taskRoutes.DELETE("/:task_id", taskHandler.DeleteTask)
 	}

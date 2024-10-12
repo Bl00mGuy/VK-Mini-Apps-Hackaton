@@ -6,8 +6,8 @@ import (
 
 type TaskRepository interface {
 	Create(createTaskDTO *dto.CreateTaskDTO) error
-	FindByID(findTaskDTO *dto.FindTaskDTO) (*dto.TaskDTO, error)
-	FindAll(findAllTasksDTO *dto.FindAllTasksDTO) ([]dto.TaskDTO, error)
+	FindByID(id uint) (*dto.TaskDTO, error)
+	FindAll(userID uint) ([]dto.TaskDTO, error)
 	Update(updateTaskDTO *dto.UpdateTaskDTO) error
-	Delete(deleteTaskDTO *dto.DeleteTaskDTO) error
+	Delete(id uint) error
 }

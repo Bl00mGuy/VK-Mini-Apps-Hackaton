@@ -4,7 +4,9 @@ import (
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/dto"
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/services/impl"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
+	"strconv"
 )
 
 type TaskHandler struct {
@@ -26,6 +28,7 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 
 	if err := h.taskService.CreateTask(&createTaskDTO); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create task"})
+		log.Printf("StartTask: failed to add task to database: %v", err)
 		return
 	}
 
@@ -33,13 +36,13 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 }
 
 func (h *TaskHandler) FindTaskByID(c *gin.Context) {
-	var findTaskDTO dto.FindTaskDTO
-	if err := c.ShouldBindUri(&findTaskDTO); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	id, err := strconv.Atoi(c.Param("task_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
 		return
 	}
 
-	taskDTO, err := h.taskService.FindTaskByID(&findTaskDTO)
+	taskDTO, err := h.taskService.FindTaskByID(uint(id))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
 		return
@@ -49,13 +52,13 @@ func (h *TaskHandler) FindTaskByID(c *gin.Context) {
 }
 
 func (h *TaskHandler) FindAllTasks(c *gin.Context) {
-	var findAllTasksDTO dto.FindAllTasksDTO
-	if err := c.ShouldBindJSON(&findAllTasksDTO); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	userID, err := strconv.Atoi(c.Param("user_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
 		return
 	}
 
-	tasks, err := h.taskService.FindAllTasks(&findAllTasksDTO)
+	tasks, err := h.taskService.FindAllTasks(uint(userID))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve tasks"})
 		return
@@ -80,13 +83,13 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 }
 
 func (h *TaskHandler) DeleteTask(c *gin.Context) {
-	var deleteTaskDTO dto.DeleteTaskDTO
-	if err := c.ShouldBindUri(&deleteTaskDTO); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	id, err := strconv.Atoi(c.Param("task_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
 		return
 	}
 
-	if err := h.taskService.DeleteTask(&deleteTaskDTO); err != nil {
+	if err := h.taskService.DeleteTask(uint(id)); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
 		return
 	}

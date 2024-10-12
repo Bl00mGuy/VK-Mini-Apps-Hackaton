@@ -19,18 +19,18 @@ func (s *TaskService) CreateTask(createTaskDTO *dto.CreateTaskDTO) error {
 	return s.repo.Create(createTaskDTO)
 }
 
-func (s *TaskService) FindTaskByID(findTaskDTO *dto.FindTaskDTO) (*dto.TaskDTO, error) {
-	return s.repo.FindByID(findTaskDTO)
+func (s *TaskService) FindTaskByID(id uint) (*dto.TaskDTO, error) {
+	return s.repo.FindByID(id)
 }
 
-func (s *TaskService) FindAllTasks(findAllTasksDTO *dto.FindAllTasksDTO) ([]dto.TaskDTO, error) {
-	return s.repo.FindAll(findAllTasksDTO)
+func (s *TaskService) FindAllTasks(userID uint) ([]dto.TaskDTO, error) {
+	return s.repo.FindAll(userID)
 }
 
 func (s *TaskService) UpdateTask(updateTaskDTO *dto.UpdateTaskDTO) error {
 	return s.repo.Update(updateTaskDTO)
 }
 
-func (s *TaskService) DeleteTask(deleteTaskDTO *dto.DeleteTaskDTO) error {
-	return s.repo.Delete(deleteTaskDTO)
+func (s *TaskService) DeleteTask(id uint) error {
+	return s.repo.Delete(id)
 }

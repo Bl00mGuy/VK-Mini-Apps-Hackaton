@@ -29,17 +29,17 @@ func (r *taskRepository) Create(createTaskDTO *dto.CreateTaskDTO) error {
 	return r.db.Create(task).Error
 }
 
-func (r *taskRepository) FindByID(findTaskDTO *dto.FindTaskDTO) (*dto.TaskDTO, error) {
+func (r *taskRepository) FindByID(id uint) (*dto.TaskDTO, error) {
 	var task entity.Task
-	if err := r.db.First(&task, findTaskDTO.TaskID).Error; err != nil {
+	if err := r.db.First(&task, id).Error; err != nil {
 		return nil, err
 	}
 	return r.mp.ConvertToDTO(&task), nil
 }
 
-func (r *taskRepository) FindAll(findAllTasksDTO *dto.FindAllTasksDTO) ([]dto.TaskDTO, error) {
+func (r *taskRepository) FindAll(userID uint) ([]dto.TaskDTO, error) {
 	var tasks []entity.Task
-	if err := r.db.Where("user_id = ?", findAllTasksDTO.UserID).Find(&tasks).Error; err != nil {
+	if err := r.db.Where("user_id = ?", userID).Find(&tasks).Error; err != nil {
 		return nil, err
 	}
 	return r.mp.ConvertToSliceDTO(tasks), nil
@@ -58,6 +58,6 @@ func (r *taskRepository) Update(updateTaskDTO *dto.UpdateTaskDTO) error {
 	return r.db.Save(task).Error
 }
 
-func (r *taskRepository) Delete(deleteTaskDTO *dto.DeleteTaskDTO) error {
-	return r.db.Delete(&entity.Task{}, deleteTaskDTO.TaskID).Error
+func (r *taskRepository) Delete(id uint) error {
+	return r.db.Delete(&entity.Task{}, id).Error
 }
