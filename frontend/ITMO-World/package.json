@@ -12,11 +12,11 @@
     "deploy": "vite build && vk-miniapps-deploy"
   },
   "dependencies": {
-    "@vkontakte/icons": "^2.92.0",
-    "@vkontakte/vk-bridge": "^2.13.0",
+    "@vkontakte/icons": "^2.147.0",
+    "@vkontakte/vk-bridge": "^2.15.1",
     "@vkontakte/vk-bridge-react": "^1.0.1",
-    "@vkontakte/vk-mini-apps-router": "^1.4.2",
-    "@vkontakte/vkui": "^6.0.0",
+    "@vkontakte/vk-mini-apps-router": "^1.5.0",
+    "@vkontakte/vkui": "^6.7.2",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
