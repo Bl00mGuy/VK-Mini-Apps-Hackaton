@@ -1,9 +1,12 @@
 package entity
 
 type Avatar struct {
-	ID        uint     `json:"id"`
-	UserID    uint     `json:"User_id"`
-	Name      string   `json:"name"`
-	ImageURL  string   `json:"image_url"`
-	Interests []string `json:"interests"`
+	ID        uint     `gorm:"primaryKey"`
+	Name      string   `gorm:"size:255"`
+	ImageURL  string   `gorm:"not null;size:255"`
+	Interests []string `gorm:"type:text[]"`
+}
+
+func (Avatar) TableName() string {
+	return "avatars"
 }

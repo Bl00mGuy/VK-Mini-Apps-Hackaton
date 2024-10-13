@@ -1,4 +1,4 @@
-package impl
+package serviceImpl
 
 import (
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/dto"

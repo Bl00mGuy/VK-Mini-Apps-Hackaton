@@ -1,4 +1,4 @@
-package impl
+package repoImpl
 
 import (
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/dto"
