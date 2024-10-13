@@ -48,6 +48,11 @@ func Start() {
 	taskService := serviceImpl.NewTaskService(taskRepository)
 	taskHandler := controller.NewTaskHandler(*taskService)
 
+	// TODO: use objects below to create achievements hanlder
+	/*achievementMapper := mapper.NewAchievementMapper()
+	achievementRepository := repoImpl.NewAchievementRepository(db, achievementMapper)
+	achievementService := serviceImpl.NewAchievementService(achievementRepository)*/
+
 	router := gin.Default()
 	taskRoutes := router.Group("/tasks")
 	{
