@@ -31,7 +31,6 @@ func (r *achievementRepository) Create(createAchievementDTO *dto.CreateAchieveme
 		return err
 	}
 
-	// Связываем ачивку с пользователем
 	return r.LinkUserAchievement(createAchievementDTO.UserID, achievement.ID)
 }
 

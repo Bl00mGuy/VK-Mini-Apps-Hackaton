@@ -76,10 +76,12 @@ func getAllRoutes(router *gin.Engine, db *gorm.DB) {
 	taskHandler := factory.CreateTaskHandler(db)
 	achievementHandler := factory.CreateAchievementHandler(db)
 	pingHandler := factory.CreatePingHandler()
+	userHandler := factory.CreateUserHandler(db)
 
 	getTaskRoutes(router, taskHandler)
 	getAchievementRoutes(router, achievementHandler)
 	getPingRoutes(router, pingHandler)
+	getUserRoutes(router, userHandler)
 }
 
 func getTaskRoutes(router *gin.Engine, taskHandler *controller.TaskHandler) {
@@ -104,5 +106,16 @@ func getAchievementRoutes(router *gin.Engine, achievementHandler *controller.Ach
 	achievementRoutes := router.Group("/achievements")
 	{
 		achievementRoutes.POST("", achievementHandler.CreateAchievement)
+	}
+}
+
+func getUserRoutes(router *gin.Engine, userHandler *controller.UserHandler) {
+	userRoutes := router.Group("/users")
+	{
+		userRoutes.POST("", userHandler.CreateUser)
+		userRoutes.GET("/:user_id", userHandler.FindUserByID)
+		userRoutes.GET("/all/", userHandler.FindAllUsers)
+		userRoutes.PUT("", userHandler.UpdateUser)
+		userRoutes.DELETE("/:user_id", userHandler.DeleteUser)
 	}
 }
