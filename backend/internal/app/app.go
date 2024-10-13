@@ -74,9 +74,11 @@ func tryToConnectToDB(attempt, retries int, db *gorm.DB, err error, dsn string) 
 
 func getAllRoutes(router *gin.Engine, db *gorm.DB) {
 	taskHandler := factory.CreateTaskHandler(db)
+	achievementHandler := factory.CreateAchievementHandler(db)
 	pingHandler := factory.CreatePingHandler()
 
 	getTaskRoutes(router, taskHandler)
+	getAchievementRoutes(router, achievementHandler)
 	getPingRoutes(router, pingHandler)
 }
 
@@ -95,5 +97,12 @@ func getPingRoutes(router *gin.Engine, pingHandler *controller.PingHandler) {
 	pingRoutes := router.Group("/ping")
 	{
 		pingRoutes.GET("", pingHandler.Ping)
+	}
+}
+
+func getAchievementRoutes(router *gin.Engine, achievementHandler *controller.AchievementHandler) {
+	achievementRoutes := router.Group("/achievements")
+	{
+		achievementRoutes.POST("", achievementHandler.CreateAchievement)
 	}
 }

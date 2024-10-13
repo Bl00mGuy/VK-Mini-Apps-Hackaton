@@ -10,10 +10,11 @@ import (
 
 type achievementRepository struct {
 	db *gorm.DB
+	mp *mapper.AchievementMapper
 }
 
-func NewAchievementRepository(db *gorm.DB) repository.AchievementRepository {
-	return &achievementRepository{db}
+func NewAchievementRepository(db *gorm.DB, mp *mapper.AchievementMapper) repository.AchievementRepository {
+	return &achievementRepository{db, mp}
 }
 
 func (r *achievementRepository) Create(createAchievementDTO *dto.CreateAchievementDTO) error {
@@ -31,17 +32,17 @@ func (r *achievementRepository) FindByID(achievementID uint) (*dto.AchievementDT
 		return nil, err
 	}
 
-	achievementDTO := mapper.ConvertToAchievementDTO(achievement)
+	achievementDTO := r.mp.ConvertToAchievementDTO(achievement)
 	return &achievementDTO, nil
 }
 
 func (r *achievementRepository) FindAll(userID uint) ([]dto.AchievementDTO, error) {
-	var achievement []entity.Achievement
-	if err := r.db.Where("user_id = ?", userID).Find(&achievement).Error; err != nil {
+	var achievements []entity.Achievement
+	if err := r.db.Where("user_id = ?", userID).Find(&achievements).Error; err != nil {
 		return nil, err
 	}
 
-	achievementDTOs := mapper.ConvertToAchievementDTOs(achievement)
+	achievementDTOs := r.mp.ConvertToAchievementDTOs(achievements)
 	return achievementDTOs, nil
 }
 
@@ -58,6 +59,6 @@ func (r *achievementRepository) Update(updateAchievementDTO *dto.UpdateAchieveme
 	return r.db.Save(achievement).Error
 }
 
-func (r *achievementRepository) Delete(deleteAchievementDTO *dto.DeleteAchievementDTO) error {
-	return r.db.Delete(&entity.Task{}, deleteAchievementDTO.AchievementID).Error
+func (r *achievementRepository) Delete(id uint) error {
+	return r.db.Delete(&entity.Achievement{}, id).Error
 }

@@ -9,5 +9,5 @@ type AchievementRepository interface {
 	FindByID(achievementID uint) (*dto.AchievementDTO, error)
 	FindAll(userID uint) ([]dto.AchievementDTO, error)
 	Update(updateTaskDTO *dto.UpdateAchievementDTO) error
-	Delete(deleteTaskDTO *dto.DeleteAchievementDTO) error
+	Delete(achievementID uint) error
 }
