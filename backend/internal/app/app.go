@@ -73,15 +73,17 @@ func tryToConnectToDB(attempt, retries int, db *gorm.DB, err error, dsn string) 
 }
 
 func getAllRoutes(router *gin.Engine, db *gorm.DB) {
+	pingHandler := factory.CreatePingHandler()
 	taskHandler := factory.CreateTaskHandler(db)
 	achievementHandler := factory.CreateAchievementHandler(db)
-	pingHandler := factory.CreatePingHandler()
 	userHandler := factory.CreateUserHandler(db)
+	avatarHandler := factory.CreateAvatarHandler(db)
 
+	getPingRoutes(router, pingHandler)
 	getTaskRoutes(router, taskHandler)
 	getAchievementRoutes(router, achievementHandler)
-	getPingRoutes(router, pingHandler)
 	getUserRoutes(router, userHandler)
+	getAvatarRoutes(router, avatarHandler)
 }
 
 func getTaskRoutes(router *gin.Engine, taskHandler *controller.TaskHandler) {
@@ -117,5 +119,16 @@ func getUserRoutes(router *gin.Engine, userHandler *controller.UserHandler) {
 		userRoutes.GET("/all/", userHandler.FindAllUsers)
 		userRoutes.PUT("", userHandler.UpdateUser)
 		userRoutes.DELETE("/:user_id", userHandler.DeleteUser)
+	}
+}
+
+func getAvatarRoutes(router *gin.Engine, avatarHandler *controller.AvatarHandler) {
+	avatarRoutes := router.Group("/avatars")
+	{
+		avatarRoutes.POST("", avatarHandler.CreateAvatar)
+		avatarRoutes.GET("/:avatar_id", avatarHandler.FindAvatarByID)
+		avatarRoutes.GET("/all/:user_id", avatarHandler.FindAllAvatars)
+		avatarRoutes.PUT("", avatarHandler.UpdateAvatar)
+		avatarRoutes.DELETE("/:avatar_id", avatarHandler.DeleteAvatar)
 	}
 }
