@@ -19,7 +19,6 @@ func NewAvatarRepository(db *gorm.DB, mp *mapper.AvatarMapper) repository.Avatar
 
 func (r *avatarRepository) Create(createAvatarDTO *dto.CreateAvatarDTO) error {
 	avatar := &entity.Avatar{
-		UserID:    createAvatarDTO.UserID,
 		Name:      createAvatarDTO.Name,
 		ImageURL:  createAvatarDTO.ImageURL,
 		Interests: createAvatarDTO.Interests,
@@ -53,7 +52,6 @@ func (r *avatarRepository) Update(updateAvatarDTO *dto.UpdateAvatarDTO) error {
 		return err
 	}
 
-	avatar.UserID = updateAvatarDTO.UserID
 	avatar.Name = updateAvatarDTO.Name
 	avatar.ImageURL = updateAvatarDTO.ImageURL
 	avatar.Interests = updateAvatarDTO.Interests

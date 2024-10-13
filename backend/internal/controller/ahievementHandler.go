@@ -2,7 +2,7 @@ package controller
 
 import (
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/dto"
-	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/services/impl"
+	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/services/serviceImpl"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -10,10 +10,10 @@ import (
 )
 
 type AchievementHandler struct {
-	achievementService impl.AchievementService
+	achievementService serviceImpl.AchievementService
 }
 
-func NewAchievementHandler(achievementService impl.AchievementService) *AchievementHandler {
+func NewAchievementHandler(achievementService serviceImpl.AchievementService) *AchievementHandler {
 	return &AchievementHandler{
 		achievementService: achievementService,
 	}

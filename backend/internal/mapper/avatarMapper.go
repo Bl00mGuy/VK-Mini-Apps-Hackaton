@@ -23,7 +23,6 @@ func (a *AvatarMapper) ConvertToAvatarDTOs(avatars []entity.Avatar) []dto.Avatar
 func (a *AvatarMapper) ConvertToAvatarDTO(avatar entity.Avatar) dto.AvatarDTO {
 	return dto.AvatarDTO{
 		AvatarID:  avatar.ID,
-		UserID:    avatar.UserID,
 		Name:      avatar.Name,
 		ImageURL:  avatar.ImageURL,
 		Interests: avatar.Interests,
