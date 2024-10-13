@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 type AchievementHandler struct {
@@ -32,4 +33,36 @@ func (h *AchievementHandler) CreateAchievement(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{"message": "Achievement created successfully", "achievement": createAchievementDTO})
+}
+
+func (h *AchievementHandler) FindAchievementByID(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("achievement_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid achievement ID"})
+		return
+	}
+
+	achievementDTO, err := h.achievementService.FindAchievementByID(uint(id))
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Achievement not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, achievementDTO)
+}
+
+func (h *TaskHandler) FindAllAchievements(c *gin.Context) {
+	userID, err := strconv.Atoi(c.Param("user_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	tasks, err := h.taskService.FindAllTasks(uint(userID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve tasks"})
+		return
+	}
+
+	c.JSON(http.StatusOK, tasks)
 }
