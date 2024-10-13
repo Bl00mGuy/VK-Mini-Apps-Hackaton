@@ -35,7 +35,7 @@ func Start() {
 		dbName,
 		portForDB)
 
-	err = tryToConnectToDB(attempt, retries, db, err, dsn)
+	db, err = tryToConnectToDB(attempt, retries, db, err, dsn)
 	if err != nil {
 		return
 	}
@@ -52,7 +52,7 @@ func Start() {
 	log.Println("Gin server has started")
 }
 
-func tryToConnectToDB(attempt, retries int, db *gorm.DB, err error, dsn string) error {
+func tryToConnectToDB(attempt, retries int, db *gorm.DB, err error, dsn string) (*gorm.DB, error) {
 	for attempt = 1; attempt <= retries; attempt++ {
 		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Silent),
@@ -66,10 +66,10 @@ func tryToConnectToDB(attempt, retries int, db *gorm.DB, err error, dsn string) 
 
 	if attempt > retries {
 		log.Fatalf("Failed to connect to database after %d attempts", retries)
-		return errors.New("failed to connect to database")
+		return nil, errors.New("failed to connect to database")
 	}
 
-	return nil
+	return db, nil
 }
 
 func getAllRoutes(router *gin.Engine, db *gorm.DB) {
