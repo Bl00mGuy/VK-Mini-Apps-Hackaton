@@ -4,7 +4,7 @@ type User struct {
 	ID       uint   `gorm:"primaryKey"`
 	Dep      string `gorm:"not null"`
 	Lvl      string `gorm:"not null"`
-	Course   int    `gorm:"not null"`
+	Course   uint   `gorm:"not null"`
 	Sport    string
 	Club     string
 	MER      string
