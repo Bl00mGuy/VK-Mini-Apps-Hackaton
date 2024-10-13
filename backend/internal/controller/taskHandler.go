@@ -2,7 +2,7 @@ package controller
 
 import (
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/dto"
-	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/services/impl"
+	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/services/serviceImpl"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -10,10 +10,10 @@ import (
 )
 
 type TaskHandler struct {
-	taskService impl.TaskService
+	taskService serviceImpl.TaskService
 }
 
-func NewTaskHandler(taskService impl.TaskService) *TaskHandler {
+func NewTaskHandler(taskService serviceImpl.TaskService) *TaskHandler {
 	return &TaskHandler{
 		taskService: taskService,
 	}

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/controller"
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/mapper"
-	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/repository"
-	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/services/impl"
+	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/repository/repoImpl"
+	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/services/serviceImpl"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -44,8 +44,8 @@ func Start() {
 	}
 
 	taskMapper := mapper.NewTaskMapper()
-	taskRepository := repository.NewTaskRepository(db, taskMapper)
-	taskService := impl.NewTaskService(taskRepository)
+	taskRepository := repoImpl.NewTaskRepository(db, taskMapper)
+	taskService := serviceImpl.NewTaskService(taskRepository)
 	taskHandler := controller.NewTaskHandler(*taskService)
 
 	router := gin.Default()

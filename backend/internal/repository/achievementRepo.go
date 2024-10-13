@@ -5,9 +5,10 @@ import (
 )
 
 type AchievementRepository interface {
-	Create(createTaskDTO *dto.CreateAchievementDTO) error
-	FindByID(achievementID uint) (*dto.AchievementDTO, error)
+	Create(createAchievementDTO *dto.CreateAchievementDTO) error
+	FindByID(id uint) (*dto.AchievementDTO, error)
 	FindAll(userID uint) ([]dto.AchievementDTO, error)
-	Update(updateTaskDTO *dto.UpdateAchievementDTO) error
-	Delete(deleteTaskDTO *dto.DeleteAchievementDTO) error
+	Update(updateAchievementDTO *dto.UpdateAchievementDTO) error
+	Delete(id uint) error
+	LinkUserAchievement(userID uint, achievementID uint) error
 }
