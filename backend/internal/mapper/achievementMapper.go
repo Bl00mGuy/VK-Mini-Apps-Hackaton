@@ -5,16 +5,22 @@ import (
 	"github.com/Bl00mGuy/VK-Mini-Apps-Hackaton/blob/main/backend/internal/entity"
 )
 
-func ConvertToAchievementDTOs(achievements []entity.Achievement) []dto.AchievementDTO {
+type AchievementMapper struct{}
+
+func NewAchievementMapper() *AchievementMapper {
+	return &AchievementMapper{}
+}
+
+func (a *AchievementMapper) ConvertToAchievementDTOs(achievements []entity.Achievement) []dto.AchievementDTO {
 	var achievementDTOs []dto.AchievementDTO
 
 	for i, achievement := range achievements {
-		achievementDTOs[i] = ConvertToAchievementDTO(achievement)
+		achievementDTOs[i] = a.ConvertToAchievementDTO(achievement)
 	}
 	return achievementDTOs
 }
 
-func ConvertToAchievementDTO(achievement entity.Achievement) dto.AchievementDTO {
+func (a *AchievementMapper) ConvertToAchievementDTO(achievement entity.Achievement) dto.AchievementDTO {
 	return dto.AchievementDTO{
 		AchievementID: achievement.ID,
 		UserID:        achievement.UserID,

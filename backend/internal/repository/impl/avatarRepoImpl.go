@@ -10,10 +10,11 @@ import (
 
 type avatarRepository struct {
 	db *gorm.DB
+	mp *mapper.AvatarMapper
 }
 
-func NewAvatarRepository(db *gorm.DB) repository.AvatarRepository {
-	return &avatarRepository{db}
+func NewAvatarRepository(db *gorm.DB, mp *mapper.AvatarMapper) repository.AvatarRepository {
+	return &avatarRepository{db, mp}
 }
 
 func (r *avatarRepository) Create(createAvatarDTO *dto.CreateAvatarDTO) error {
@@ -32,7 +33,7 @@ func (r *avatarRepository) FindByID(avatarID uint) (*dto.AvatarDTO, error) {
 		return nil, err
 	}
 
-	avatarDTO := mapper.ConvertToAvatarDTO(avatar)
+	avatarDTO := r.mp.ConvertToAvatarDTO(avatar)
 	return &avatarDTO, nil
 }
 
@@ -42,7 +43,7 @@ func (r *avatarRepository) FindAll(userID uint) ([]dto.AvatarDTO, error) {
 		return nil, err
 	}
 
-	avatarDTOs := mapper.ConvertToAvatarDTOs(avatars)
+	avatarDTOs := r.mp.ConvertToAvatarDTOs(avatars)
 	return avatarDTOs, nil
 }
 
@@ -60,6 +61,6 @@ func (r *avatarRepository) Update(updateAvatarDTO *dto.UpdateAvatarDTO) error {
 	return r.db.Save(avatar).Error
 }
 
-func (r *avatarRepository) Delete(deleteAvatarDTO *dto.DeleteAvatarDTO) error {
-	return r.db.Delete(&entity.Task{}, deleteAvatarDTO.AvatarID).Error
+func (r *avatarRepository) Delete(id uint) error {
+	return r.db.Delete(&entity.Task{}, id).Error
 }
